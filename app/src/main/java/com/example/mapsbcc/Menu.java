@@ -22,9 +22,35 @@ public class Menu extends AppCompatActivity {
                 openGPS();
             }
         });
+
+        button = (Button) findViewById(R.id.button4);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openRoutes();
+            }
+        });
+
+        button = (Button) findViewById(R.id.button3);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logOut();
+            }
+        });
     }
     public void openGPS() {
         Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void openRoutes() {
+        Intent intent = new Intent(this,Routes.class);
+        startActivity(intent);
+    }
+
+    public void logOut() {
+        Intent intent = new Intent(this,LoginScreen.class);
         startActivity(intent);
     }
 }

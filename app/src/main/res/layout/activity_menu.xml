@@ -6,30 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".Menu">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="204dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="186dp"
-        android:layout_marginEnd="190dp"
-        android:layout_marginBottom="359dp"
-        android:text="Menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="302dp"
+        android:text="Routes" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="204dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="104dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginBottom="137dp"
+        android:text="Logout" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="599dp"
+        android:text="Main Menu"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="204dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="149dp"
-        android:layout_marginEnd="153dp"
-        android:layout_marginBottom="121dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="101dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="225dp"
         android:text="Åben GPS" />
 </RelativeLayout>
