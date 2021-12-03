@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MapSBCC</string>
+    <string name="access_token">pk.eyJ1IjoiYmFzdGlhbnJhc2NoIiwiYSI6ImNrMHc4aHhvNDAwbTEzY21tY3J1YTU5N3kifQ.ZL1dBjHydctYt2ANZXTyQA</string>
+    <string name="start_navigating">Start Navigating</string>
+</resources>
