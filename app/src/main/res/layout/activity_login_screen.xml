@@ -6,29 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".LoginScreen">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="167dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="163dp"
-        android:layout_marginEnd="170dp"
-        android:layout_marginBottom="321dp"
-        android:text="LoginScreen" />
+        android:layout_marginStart="119dp"
+        android:layout_marginEnd="126dp"
+        android:layout_marginBottom="110dp"
+        android:text="Login"
+        android:textAlignment="center" />
 
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="188dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="128dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginBottom="122dp"
-        android:text="Gå til menu" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="107dp"
+        android:layout_marginEnd="117dp"
+        android:layout_marginBottom="447dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="599dp"
+        android:text="LoginScreen"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="194dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="107dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="382dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
+
 
 </RelativeLayout>
