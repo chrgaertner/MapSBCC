@@ -21,7 +21,7 @@
         android:textAlignment="center" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/bUsername"
         android:layout_width="188dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -31,7 +31,7 @@
         android:layout_marginEnd="117dp"
         android:layout_marginBottom="447dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
@@ -51,7 +51,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/bPassword"
         android:layout_width="194dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
