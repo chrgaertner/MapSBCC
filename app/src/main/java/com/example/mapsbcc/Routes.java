@@ -59,7 +59,12 @@ public class Routes extends AppCompatActivity {
                     String lon = sample.getLon();
 
                     System.out.println(adr + lat +" - "+ lon);
+
+                    TextView theTextView = (TextView) findViewById(R.id.showAddress);
+                    theTextView.setText(adr);
                 }
+
+
             }
         } catch (IOException e) {
             Log.wtf("MyActivity", "Error reading data on line " + line, e);
