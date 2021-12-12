@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .origin(originPosition)
                         .destination(destinationPostition)
-                        //set to false (det er for at simulere at man bevæger sig)
+                        //set to false eller fjern helt fra programmet (det er for at simulere at man bevæger sig)
                         .shouldSimulateRoute(true)
                         .build();
                 NavigationLauncher.startNavigation(MainActivity.this,options);
