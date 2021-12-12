@@ -53,9 +53,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location orginLocation;
     private Point originPosition;
     private Point destinationPostition;
+    private Point desList;
     private Marker destininationMarker;
     private NavigationMapRoute navigationMapRoute;
     private static final String TAG = "MainActivity";
+
+    // Forsøg på at hente bestemte koordinater
+
+    private double lat = 55.708660;
+    private double lng = 12.080420;
 
 
 
@@ -74,12 +80,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .origin(originPosition)
-                        .destination(destinationPostition)
+                        .destination(desList)
                         //set to false eller fjern helt fra programmet (det er for at simulere at man bevæger sig)
                         .shouldSimulateRoute(true)
                         .build();
                 NavigationLauncher.startNavigation(MainActivity.this,options);
-
             }
         });
 
@@ -133,15 +138,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapClick(@NonNull LatLng point) {
 
-        if(destinationPostition != null){
+        if(desList != null){
             map.removeMarker(destininationMarker);
         }
 
         destininationMarker = map.addMarker(new MarkerOptions().position(point));
-
+        // Her laver vi liste med de parameter som viser sig hen på RUC
+        desList = Point.fromLngLat(lng,lat);
         destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         originPosition = Point.fromLngLat(orginLocation.getLongitude(),orginLocation.getLatitude());
-        getRoute(originPosition,destinationPostition);
+        //Istedet for destionationPosition bruger vi desList som kun viser hen til ruc for nu.
+        getRoute(originPosition,desList);
 
         startButton.setEnabled(true);
         startButton.setBackgroundResource(R.color.mapbox_blue);
