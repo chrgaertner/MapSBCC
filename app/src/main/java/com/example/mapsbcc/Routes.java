@@ -22,7 +22,7 @@ public class Routes extends AppCompatActivity {
         setContentView(R.layout.activity_routes);
 
         readAddressData();
-        
+
     }
 
     private List<AddressSample> addressSamples = new ArrayList<>();
@@ -51,19 +51,18 @@ public class Routes extends AppCompatActivity {
                 addressSamples.add(sample);
 
                 Log.d("MyActivity", "Just created " + sample);
-                
+
                 // print data ud
-                for(int i = 0; i < 3; i++){
+                for (int i = 0; i < 3; i++) {
                     String adr = sample.getAddress();
                     String lat = sample.getLat();
                     String lon = sample.getLon();
 
-                    System.out.println(adr + lat +" - "+ lon);
+                    System.out.println(adr + lat + " - " + lon);
 
                     TextView theTextView = (TextView) findViewById(R.id.showAddress);
                     theTextView.setText(adr);
                 }
-
 
             }
         } catch (IOException e) {

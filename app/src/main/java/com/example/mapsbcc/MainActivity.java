@@ -59,16 +59,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String TAG = "MainActivity";
 
     // Forsøg på at hente bestemte koordinater
-
-    private double lat = 55.708660;
-    private double lng = 12.080420;
-
+    private double lat = 55.676328;
+    private double lng = 12.570184;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this,getString(R.string.access_token));
+        Mapbox.getInstance(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
         mapView = findViewById(R.id.mapView);
         startButton = findViewById(R.id.startButton);
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         //set to false eller fjern helt fra programmet (det er for at simulere at man bevæger sig)
                         .shouldSimulateRoute(true)
                         .build();
-                NavigationLauncher.startNavigation(MainActivity.this,options);
+                NavigationLauncher.startNavigation(MainActivity.this, options);
             }
         });
 
@@ -97,64 +95,67 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         enableLocation();
     }
 
-    private void enableLocation(){
-        if(permissionsManager.areLocationPermissionsGranted(this)){
+    private void enableLocation() {
+        if (permissionsManager.areLocationPermissionsGranted(this)) {
             initializeLocationEnige();
             initializeLocationLayer();
-        }else{
+        } else {
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);
         }
     }
 
     @SuppressWarnings("MissingPermission")
-    private void initializeLocationEnige(){
+    private void initializeLocationEnige() {
         locationEngine = new LocationEngineProvider(this).obtainBestLocationEngineAvailable();
         locationEngine.setPriority(LocationEnginePriority.HIGH_ACCURACY);
         locationEngine.activate();
 
         Location lastLocation = locationEngine.getLastLocation();
-        if(lastLocation != null) {
+        if (lastLocation != null) {
             orginLocation = lastLocation;
             setCameraPostition(lastLocation);
-        }else{
+        } else {
             locationEngine.addLocationEngineListener(this);
         }
     }
 
     @SuppressWarnings("MissingPermission")
-    private void initializeLocationLayer(){
-        locationLayerPlugin = new LocationLayerPlugin(mapView,map,locationEngine);
+    private void initializeLocationLayer() {
+        locationLayerPlugin = new LocationLayerPlugin(mapView, map, locationEngine);
         locationLayerPlugin.setLocationLayerEnabled(true);
         locationLayerPlugin.setCameraMode(CameraMode.TRACKING);
         locationLayerPlugin.setRenderMode(RenderMode.NORMAL);
     }
 
-    private void setCameraPostition(Location location){
+    private void setCameraPostition(Location location) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
-                location.getLongitude()),13.0));
+                location.getLongitude()), 13.0));
     }
 
     @Override
     public void onMapClick(@NonNull LatLng point) {
 
-        if(desList != null){
+        /*if(desList != null){
             map.removeMarker(destininationMarker);
         }
 
+         */
+
         destininationMarker = map.addMarker(new MarkerOptions().position(point));
-        // Her laver vi liste med de parameter som viser sig hen på RUC
-        desList = Point.fromLngLat(lng,lat);
+        // Her laver vi liste med de parameter som viser sig hen vores punkt
+        desList = Point.fromLngLat(lng, lat);
         destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-        originPosition = Point.fromLngLat(orginLocation.getLongitude(),orginLocation.getLatitude());
-        //Istedet for destionationPosition bruger vi desList som kun viser hen til ruc for nu.
-        getRoute(originPosition,desList);
+        originPosition = Point.fromLngLat(orginLocation.getLongitude(), orginLocation.getLatitude());
+        //Istedet for destionationPosition bruger vi desList som kun viser hen vores punkt.
+        getRoute(originPosition, desList);
 
         startButton.setEnabled(true);
         startButton.setBackgroundResource(R.color.mapbox_blue);
     }
 
-    private void getRoute(Point orgin,Point destination){
+    //Creates the route
+    private void getRoute(Point orgin, Point destination) {
         NavigationRoute.builder()
                 .accessToken(Mapbox.getAccessToken())
                 .origin(orgin)
@@ -163,20 +164,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-                        if(response.body() == null){
-                            Log.e(TAG,"No routes found, check right user and access token");
+                        if (response.body() == null) {
+                            Log.e(TAG, "No routes found, check right user and access token");
                             return;
-                        }else if (response.body().routes().size() == 0){
-                            Log.e(TAG,"No routes found");
+                        } else if (response.body().routes().size() == 0) {
+                            Log.e(TAG, "No routes found");
                             return;
                         }
 
                         DirectionsRoute currentRoute = response.body().routes().get(0);
 
-                        if (navigationMapRoute != null){
+                        if (navigationMapRoute != null) {
                             navigationMapRoute.removeRoute();
-                        }else{
-                            navigationMapRoute = new NavigationMapRoute(null,mapView,map);
+                        } else {
+                            navigationMapRoute = new NavigationMapRoute(null, mapView, map);
                         }
 
                         navigationMapRoute.addRoute(currentRoute);
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     @Override
                     public void onFailure(Call<DirectionsResponse> call, Throwable t) {
-                        Log.e(TAG,"Error:" + t.getMessage());
+                        Log.e(TAG, "Error:" + t.getMessage());
                     }
                 });
     }
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
-        if(location != null){
+        if (location != null) {
             orginLocation = location;
             setCameraPostition(location);
         }
@@ -210,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onPermissionResult(boolean granted) {
-        if(granted) {
+        if (granted) {
             enableLocation();
         }
     }
@@ -224,55 +225,55 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         super.onStart();
-        if(locationEngine != null){
+        if (locationEngine != null) {
             locationEngine.requestLocationUpdates();
         }
-        if(locationLayerPlugin != null){
+        if (locationLayerPlugin != null) {
             locationLayerPlugin.onStart();
         }
         mapView.onStart();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         mapView.onResume();
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         mapView.onPause();
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
-        if(locationEngine != null){
+        if (locationEngine != null) {
             locationEngine.removeLocationUpdates();
         }
-        if(locationLayerPlugin != null){
+        if (locationLayerPlugin != null) {
             locationLayerPlugin.onStop();
         }
         mapView.onStop();
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState){
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onLowMemory(){
+    public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        if(locationEngine!=null) {
+        if (locationEngine != null) {
             locationEngine.deactivate();
         }
         mapView.onDestroy();

@@ -39,18 +39,19 @@ public class Menu extends AppCompatActivity {
             }
         });
     }
+
     public void openGPS() {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     public void openRoutes() {
-        Intent intent = new Intent(this,Routes.class);
+        Intent intent = new Intent(this, Routes.class);
         startActivity(intent);
     }
 
     public void logOut() {
-        Intent intent = new Intent(this,LoginScreen.class);
+        Intent intent = new Intent(this, LoginScreen.class);
         startActivity(intent);
     }
 }
