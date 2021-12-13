@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,17 +24,16 @@ public class Routes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routes);
-
         readAddressData();
 
     }
 
-    private List<AddressSample> addressSamples = new ArrayList<>();
+    private final List<AddressSample> addressSamples = new ArrayList<>();
 
     private void readAddressData() {
         InputStream is = getResources().openRawResource(R.raw.adresse);
         BufferedReader reader = new BufferedReader(
-                new InputStreamReader(is, Charset.forName("UTF-8"))
+                new InputStreamReader(is, StandardCharsets.UTF_8)
         );
 
         String line = "";
@@ -52,17 +55,23 @@ public class Routes extends AppCompatActivity {
 
                 Log.d("MyActivity", "Just created " + sample);
 
-                // print data ud
+                RelativeLayout re = (RelativeLayout) findViewById(R.id.main);
+
                 for (int i = 0; i < 3; i++) {
-                    String adr = sample.getAddress();
-                    String lat = sample.getLat();
-                    String lon = sample.getLon();
-
-                    System.out.println(adr + lat + " - " + lon);
-
-                    TextView theTextView = (TextView) findViewById(R.id.showAddress);
-                    theTextView.setText(adr);
+                    TextView text = new TextView(this);
+                    text.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                    text.setText(sample.getAddress()+i);
+                    re.addView(text);
                 }
+
+
+
+
+                System.out.println(sample.getAddress() + " TEST");
+
+
+
+
 
             }
         } catch (IOException e) {
