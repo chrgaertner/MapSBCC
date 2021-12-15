@@ -91,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
+        MarkerOptions options = new MarkerOptions();
+        options.title("JATAK");
+        options.position(new LatLng(lat,lng));
+        mapboxMap.addMarker(options);
         map.addOnMapClickListener(this);
         enableLocation();
     }
@@ -141,8 +145,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
          */
-
-        destininationMarker = map.addMarker(new MarkerOptions().position(point));
         // Her laver vi liste med de parameter som viser sig hen vores punkt
         desList = Point.fromLngLat(lng, lat);
         destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());

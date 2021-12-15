@@ -78,8 +78,6 @@ public class Routes extends AppCompatActivity {
 
 
 
-
-
             }
         } catch (IOException e) {
             Log.wtf("MyActivity", "Error reading data on line " + line, e);
