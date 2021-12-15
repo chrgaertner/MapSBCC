@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,19 +13,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Routes extends AppCompatActivity {
 
+    ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routes);
         readAddressData();
+
 
     }
 
@@ -53,16 +55,21 @@ public class Routes extends AppCompatActivity {
                 sample.setLon(tokens[2]);
                 addressSamples.add(sample);
 
+
+
                 Log.d("MyActivity", "Just created " + sample);
 
-                RelativeLayout re = (RelativeLayout) findViewById(R.id.main);
+                listView = (ListView) findViewById(R.id.listview);
+                ArrayList<AddressSample> arrayList = new ArrayList<>();
 
-                for (int i = 0; i < 3; i++) {
-                    TextView text = new TextView(this);
-                    text.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-                    text.setText(sample.getAddress()+i);
-                    re.addView(text);
+
+                for (int i = 0; i < addressSamples.size(); i++) {
+                    arrayList.add(addressSamples.get(i));
                 }
+
+                ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,arrayList);
+
+                listView.setAdapter(arrayAdapter);
 
 
 

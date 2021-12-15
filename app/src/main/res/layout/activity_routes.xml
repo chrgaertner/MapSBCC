@@ -7,6 +7,13 @@
     android:id="@+id/main"
     tools:context=".Routes">
 
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="641dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="1dp" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="311dp"
@@ -23,15 +30,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/showAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="-2dp"
-        android:layout_marginBottom="462dp"
-        android:textAlignment="center" />
 </RelativeLayout>

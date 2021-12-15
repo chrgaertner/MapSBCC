@@ -5,6 +5,8 @@ public class AddressSample {
     private String lat;
     private String lon;
 
+
+
     public String getAddress() {
         return address;
     }
@@ -31,10 +33,25 @@ public class AddressSample {
 
     @Override
     public String toString() {
+        return address;
+    }
+
+    public String FullInformationtoString() {
         return "AddressSample{" +
                 "address='" + address + '\'' +
                 ", lat=" + lat +
                 ", lon=" + lon +
                 '}';
+    }
+
+    public AddressSample()
+    {
+
+    }
+
+    public AddressSample (String adr, String lat, String lon){
+        this.address = adr;
+        this.lat = lat;
+        this.lon = lon;
     }
 }
