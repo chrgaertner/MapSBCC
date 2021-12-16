@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Point originPosition;
     private Point destinationPostition;
     private Point desList;
+    private Point p1;
+    private Point[] waypoints = new Point[] {p1};
     private Marker destininationMarker;
     private NavigationMapRoute navigationMapRoute;
     private static final String TAG = "MainActivity";
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Forsøg på at hente bestemte koordinater
     private double lat = 55.676328;
     private double lng = 12.570184;
+
+    private double lat2 = 55.67227755672503;
+    private double lng2 = 12.522236831690234;
 
 
     @Override
@@ -92,9 +97,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
         MarkerOptions options = new MarkerOptions();
+        MarkerOptions options2 = new MarkerOptions();
         options.title("JATAK");
-        options.position(new LatLng(lat,lng));
+        options2.title("JA22TAK");
+        options.position(new LatLng(lat2, lng2));
         mapboxMap.addMarker(options);
+        options2.position(new LatLng(lat, lng));
+        mapboxMap.addMarker(options2);
         map.addOnMapClickListener(this);
         enableLocation();
     }
@@ -147,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
          */
         // Her laver vi liste med de parameter som viser sig hen vores punkt
         desList = Point.fromLngLat(lng, lat);
+        p1 = Point.fromLngLat(lng2,lat2);
         destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         originPosition = Point.fromLngLat(orginLocation.getLongitude(), orginLocation.getLatitude());
         //Istedet for destionationPosition bruger vi desList som kun viser hen vores punkt.
@@ -158,11 +168,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Creates the route
     private void getRoute(Point orgin, Point destination) {
-        NavigationRoute.builder()
+        NavigationRoute.Builder builder = NavigationRoute.builder()
                 .accessToken(Mapbox.getAccessToken())
                 .origin(orgin)
-                .destination(destination)
-                .build()
+                .destination(destination);
+
+                for (Point waypoint : waypoints){
+                builder.addWaypoint(waypoint);
+                }
+                builder.build()
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
