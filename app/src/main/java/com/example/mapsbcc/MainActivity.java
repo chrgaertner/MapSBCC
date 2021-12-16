@@ -15,6 +15,7 @@ import com.mapbox.android.core.location.LocationEnginePriority;
 import com.mapbox.android.core.location.LocationEngineProvider;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
@@ -155,27 +156,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
          */
         // Her laver vi liste med de parameter som viser sig hen vores punkt
-        desList = Point.fromLngLat(lng, lat);
         p1 = Point.fromLngLat(lng2,lat2);
+        desList = Point.fromLngLat(lng, lat);
         destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         originPosition = Point.fromLngLat(orginLocation.getLongitude(), orginLocation.getLatitude());
         //Istedet for destionationPosition bruger vi desList som kun viser hen vores punkt.
-        getRoute(originPosition, desList);
+        getRoute(originPosition, desList, p1);
 
         startButton.setEnabled(true);
         startButton.setBackgroundResource(R.color.mapbox_blue);
     }
 
     //Creates the route
-    private void getRoute(Point orgin, Point destination) {
+    private void getRoute(Point orgin, Point destination, Point waypoint) {
+
         NavigationRoute.Builder builder = NavigationRoute.builder()
                 .accessToken(Mapbox.getAccessToken())
                 .origin(orgin)
-                .destination(destination);
-
-                for (Point waypoint : waypoints){
+                .destination(destination)
+                .profile(DirectionsCriteria.PROFILE_DRIVING);
                 builder.addWaypoint(waypoint);
-                }
                 builder.build()
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
