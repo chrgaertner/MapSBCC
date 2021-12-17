@@ -57,14 +57,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Point desList;
     private Point p1;
     private Point p2;
+    private DirectionsRoute waypointroute;
     private Point[] waypoints = new Point[] {p1};
     private Marker destininationMarker;
     private NavigationMapRoute navigationMapRoute;
     private static final String TAG = "MainActivity";
 
     // Forsøg på at hente bestemte koordinater
-    private double lat = 55.676328;
-    private double lng = 12.570184;
+    private double lat = 55.65088274898411;
+    private double lng = 12.143313167991186;
 
     private double lat2 = 55.67227755672503;
     private double lng2 = 12.522236831690234;
@@ -87,10 +88,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                        .origin(originPosition)
-                        .destination(desList)
+                        .directionsRoute(waypointroute)
                         //set to false eller fjern helt fra programmet (det er for at simulere at man bevæger sig)
-                        .shouldSimulateRoute(true)
+                        //.shouldSimulateRoute(true)
                         .build();
                 NavigationLauncher.startNavigation(MainActivity.this, options);
             }
@@ -199,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         DirectionsRoute currentRoute = response.body().routes().get(0);
 
+                        waypointroute = currentRoute;
+
                         if (navigationMapRoute != null) {
                             navigationMapRoute.removeRoute();
                         } else {
@@ -208,10 +210,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         navigationMapRoute.addRoute(currentRoute);
                     }
 
+
+
                     @Override
                     public void onFailure(Call<DirectionsResponse> call, Throwable t) {
                         Log.e(TAG, "Error:" + t.getMessage());
                     }
+
                 });
     }
 

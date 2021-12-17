@@ -22,7 +22,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="648dp"
-        android:text="See Routes"
+        android:text="See Route"
         android:textAlignment="center"
         android:textSize="48sp"
         android:textStyle="bold"
