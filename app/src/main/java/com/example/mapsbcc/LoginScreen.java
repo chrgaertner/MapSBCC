@@ -23,8 +23,9 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
     }
+
     public void openMenu() {
-        Intent intent = new Intent(this,Menu.class);
+        Intent intent = new Intent(this, Menu.class);
         startActivity(intent);
     }
 }

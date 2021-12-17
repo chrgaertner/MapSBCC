@@ -6,7 +6,6 @@ public class AddressSample {
     private String lon;
 
 
-
     public String getAddress() {
         return address;
     }
@@ -44,12 +43,11 @@ public class AddressSample {
                 '}';
     }
 
-    public AddressSample()
-    {
+    public AddressSample() {
 
     }
 
-    public AddressSample (String adr, String lat, String lon){
+    public AddressSample(String adr, String lat, String lon) {
         this.address = adr;
         this.lat = lat;
         this.lon = lon;

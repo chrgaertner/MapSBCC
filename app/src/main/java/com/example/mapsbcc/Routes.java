@@ -56,7 +56,6 @@ public class Routes extends AppCompatActivity {
                 addressSamples.add(sample);
 
 
-
                 Log.d("MyActivity", "Just created " + sample);
 
                 listView = (ListView) findViewById(R.id.listview);
@@ -67,15 +66,12 @@ public class Routes extends AppCompatActivity {
                     arrayList.add(addressSamples.get(i));
                 }
 
-                ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,arrayList);
+                ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
 
                 listView.setAdapter(arrayAdapter);
 
 
-
-
                 System.out.println(sample.getAddress() + " TEST");
-
 
 
             }

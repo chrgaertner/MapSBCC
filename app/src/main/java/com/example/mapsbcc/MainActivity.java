@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Point p1;
     private Point p2;
     private DirectionsRoute waypointroute;
-    private Point[] waypoints = new Point[] {p1};
+    private Point[] waypoints = new Point[]{p1};
     private Marker destininationMarker;
     private NavigationMapRoute navigationMapRoute;
     private static final String TAG = "MainActivity";
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .directionsRoute(waypointroute)
                         //set to false eller fjern helt fra programmet (det er for at simulere at man bevæger sig)
-                        //.shouldSimulateRoute(true)
+                        .shouldSimulateRoute(true)
                         .build();
                 NavigationLauncher.startNavigation(MainActivity.this, options);
             }
@@ -163,29 +163,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
          */
         // Her laver vi liste med de parameter som viser sig hen vores punkt
-        p1 = Point.fromLngLat(lng2,lat2);
-        p2 = Point.fromLngLat(lng3,lat3);
+        p1 = Point.fromLngLat(lng2, lat2);
+        p2 = Point.fromLngLat(lng3, lat3);
         desList = Point.fromLngLat(lng, lat);
         destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         originPosition = Point.fromLngLat(orginLocation.getLongitude(), orginLocation.getLatitude());
         //Istedet for destionationPosition bruger vi desList som kun viser hen vores punkt.
-        getRoute(originPosition, desList, p1,p2);
-
+        getRoute(originPosition, p1, p2, desList);
         startButton.setEnabled(true);
         startButton.setBackgroundResource(R.color.mapbox_blue);
     }
 
+
     //Creates the route
-    private void getRoute(Point orgin, Point destination, Point waypoint,Point waypoint2) {
+    private void getRoute(Point orgin, Point waypoint, Point waypoint2, Point destination) {
 
         NavigationRoute.Builder builder = NavigationRoute.builder()
                 .accessToken(Mapbox.getAccessToken())
                 .origin(orgin)
                 .destination(destination)
                 .profile(DirectionsCriteria.PROFILE_DRIVING);
-                builder.addWaypoint(waypoint);
-                builder.addWaypoint(waypoint2);
-                builder.build()
+        builder.addWaypoint(waypoint);
+        builder.addWaypoint(waypoint2);
+        builder.build()
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
@@ -209,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         navigationMapRoute.addRoute(currentRoute);
                     }
-
 
 
                     @Override
