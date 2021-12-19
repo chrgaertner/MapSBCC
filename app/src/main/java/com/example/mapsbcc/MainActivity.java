@@ -18,7 +18,6 @@ import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.api.directions.v5.models.RouteOptions;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
@@ -28,7 +27,6 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerOptions;
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
@@ -46,6 +44,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationEngineListener,
         PermissionsListener, MapboxMap.OnMapClickListener {
 
+    //Creating variables for program
     private MapView mapView;
     private MapboxMap map;
     private Button startButton;
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationLayerPlugin locationLayerPlugin;
     private Location orginLocation;
     private Point originPosition;
-    private Point destinationPostition;
     private Point desList;
     private Point p1;
     private Point p2;
@@ -63,15 +61,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Point p5;
     private Point p6;
     private DirectionsRoute waypointroute;
-    private Point[] waypoints = new Point[]{p1};
-    private Marker destininationMarker;
     private NavigationMapRoute navigationMapRoute;
     private static final String TAG = "MainActivity";
 
+    //Inserts points in program
     //RUC (destination point)
     private double lat = 55.651330;
     private double lng = 12.140020;
-
 
     //Bregnevej 24
     private double lat1 = 55.636110;
@@ -98,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double lng6 = 12.109180;
 
 
+    //Creates the map, connects to our MapBox key, and makes sure we are allowed to use it
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,15 +110,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                         .directionsRoute(waypointroute)
-                        //set to false eller fjern helt fra programmet (det er for at simulere at man bevæger sig)
+                        //Set to false if route should not be simulated
                         .shouldSimulateRoute(true)
                         .build();
                 NavigationLauncher.startNavigation(MainActivity.this, options);
             }
         });
-
     }
 
+    //Inserts our markers when map is ready
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
@@ -168,11 +165,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         options6.position(new LatLng(lat6, lng6));
         mapboxMap.addMarker(options6);
 
-
         map.addOnMapClickListener(this);
         enableLocation();
     }
 
+    //Finds and enables our location
     private void enableLocation() {
         if (permissionsManager.areLocationPermissionsGranted(this)) {
             initializeLocationEnige();
@@ -183,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    //Sets the map to our location, and if it cant find, it sets the location to Roskilde
     @SuppressWarnings("MissingPermission")
     private void initializeLocationEnige() {
         locationEngine = new LocationEngineProvider(this).obtainBestLocationEngineAvailable();
@@ -192,12 +190,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Location lastLocation = locationEngine.getLastLocation();
         if (lastLocation != null) {
             orginLocation = lastLocation;
-            setCameraPostition(lastLocation);
+            setCameraPosition(lastLocation);
         } else {
             locationEngine.addLocationEngineListener(this);
         }
     }
 
+    //Displays and follows the users location
     @SuppressWarnings("MissingPermission")
     private void initializeLocationLayer() {
         locationLayerPlugin = new LocationLayerPlugin(mapView, map, locationEngine);
@@ -206,16 +205,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationLayerPlugin.setRenderMode(RenderMode.NORMAL);
     }
 
-    private void setCameraPostition(Location location) {
+    //Sets the camera position for program
+    private void setCameraPosition(Location location) {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),
                 location.getLongitude()), 13.0));
     }
 
+    //Starts the navigation on map click
     @Override
     public void onMapClick(@NonNull LatLng point) {
-
-
-        // Her laver vi liste med de parameter som viser sig hen vores punkt
+        //Creates points from our lat,lan from earlier in the program
         desList = Point.fromLngLat(lng, lat);
         p1 = Point.fromLngLat(lng1, lat1);
         p2 = Point.fromLngLat(lng2, lat2);
@@ -224,22 +223,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         p5 = Point.fromLngLat(lng5, lat5);
         p6 = Point.fromLngLat(lng6, lat6);
 
-        //destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         originPosition = Point.fromLngLat(orginLocation.getLongitude(), orginLocation.getLatitude());
-        //Istedet for destionationPosition bruger vi desList som kun viser hen vores punkt.
-        getRoute(originPosition, p1,p2,p3,p4,p5,p6, desList);
+
+        getRoute(originPosition, p1, p2, p3, p4, p5, p6, desList);
         startButton.setEnabled(true);
         startButton.setBackgroundResource(R.color.mapbox_blue);
     }
 
-
     //Creates the route
-    private void getRoute(Point orgin, Point waypoint,Point waypoint1,Point waypoint2,Point waypoint3,Point waypoint4,Point waypoint5, Point destination) {
-
+    private void getRoute(Point origin, Point waypoint, Point waypoint1, Point waypoint2, Point waypoint3, Point waypoint4, Point waypoint5, Point destination) {
+        //Build the route, from our origin position, to our destination position, creating waypoints along the route
         NavigationRoute.Builder builder = NavigationRoute.builder()
                 .accessToken(Mapbox.getAccessToken())
-                .origin(orgin)
+                .origin(origin)
                 .destination(destination)
+                //Sets our directions criteria to driving (instead ex. cycling/walking)
                 .profile(DirectionsCriteria.PROFILE_DRIVING);
         builder.addWaypoint(waypoint);
         builder.addWaypoint(waypoint1);
@@ -249,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.addWaypoint(waypoint5);
 
         builder.build()
+                //Checks for response from API
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
@@ -273,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         navigationMapRoute.addRoute(currentRoute);
                     }
 
-
+                    //Logs if there is any error + the error message
                     @Override
                     public void onFailure(Call<DirectionsResponse> call, Throwable t) {
                         Log.e(TAG, "Error:" + t.getMessage());
@@ -282,17 +281,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
+    //Gets the user location
     @Override
     @SuppressWarnings("MissingPermission")
     public void onConnected() {
         locationEngine.requestLocationUpdates();
     }
 
+    //Updates the user location if location has moved
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
             orginLocation = location;
-            setCameraPostition(location);
+            setCameraPosition(location);
         }
     }
 
@@ -301,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //present toast or dialog.
     }
 
+    //If user accepts location, enables location
     @Override
     public void onPermissionResult(boolean granted) {
         if (granted) {
@@ -313,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //On start makes sure everything is running, else it ask for the permissions
     @SuppressWarnings("MissingPermission")
     @Override
     protected void onStart() {
@@ -326,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.onStart();
     }
 
+    //All things below is what the app does in its different states
     @Override
     protected void onResume() {
         super.onResume();
