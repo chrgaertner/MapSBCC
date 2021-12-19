@@ -58,22 +58,45 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Point desList;
     private Point p1;
     private Point p2;
+    private Point p3;
+    private Point p4;
+    private Point p5;
+    private Point p6;
     private DirectionsRoute waypointroute;
     private Point[] waypoints = new Point[]{p1};
     private Marker destininationMarker;
     private NavigationMapRoute navigationMapRoute;
     private static final String TAG = "MainActivity";
 
-    // Forsøg på at hente bestemte koordinater
-    private double lat = 55.65088274898411;
-    private double lng = 12.143313167991186;
-
-    private double lat2 = 55.67227755672503;
-    private double lng2 = 12.522236831690234;
+    //RUC (destination point)
+    private double lat = 55.651330;
+    private double lng = 12.140020;
 
 
-    private double lat3 = 55.653393825450074;
-    private double lng3 = 12.140940807544787;
+    //Bregnevej 24
+    private double lat1 = 55.636110;
+    private double lng1 = 12.095740;
+
+    //I P Hansens Vej 18
+    private double lat2 = 55.637880;
+    private double lng2 = 12.062120;
+
+    //Hyldevej 4
+    private double lat3 = 55.644920;
+    private double lng3 = 12.060460;
+
+    //Liden Kirstens Vej 8
+    private double lat4 = 55.652290;
+    private double lng4 = 12.095520;
+
+    //Ternevej 47
+    private double lat5 = 55.648620;
+    private double lng5 = 12.113300;
+
+    //Engblommevej 22
+    private double lat6 = 55.634000;
+    private double lng6 = 12.109180;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,17 +125,50 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
+
+        //RUC
         MarkerOptions options = new MarkerOptions();
-        MarkerOptions options2 = new MarkerOptions();
-        MarkerOptions options3 = new MarkerOptions();
-        options.title("JATAK");
-        options2.title("JA22TAK");
-        options.position(new LatLng(lat2, lng2));
+        options.title("RUC");
+        options.position(new LatLng(lat, lng));
         mapboxMap.addMarker(options);
-        options2.position(new LatLng(lat, lng));
+
+        //Bregnevej 24
+        MarkerOptions options1 = new MarkerOptions();
+        options1.title("Bregnevej 24");
+        options1.position(new LatLng(lat1, lng1));
+        mapboxMap.addMarker(options1);
+
+        //I P Hansens Vej 18
+        MarkerOptions options2 = new MarkerOptions();
+        options2.title("I P Hansens Vej 18");
+        options2.position(new LatLng(lat2, lng2));
         mapboxMap.addMarker(options2);
+
+        //Hyldevej 4
+        MarkerOptions options3 = new MarkerOptions();
+        options3.title("Hyldevej 4");
         options3.position(new LatLng(lat3, lng3));
         mapboxMap.addMarker(options3);
+
+        //Liden Kirstens Vej 8
+        MarkerOptions options4 = new MarkerOptions();
+        options4.title("Liden Kirstens Vej 8");
+        options4.position(new LatLng(lat4, lng4));
+        mapboxMap.addMarker(options4);
+
+        //Ternevej 47
+        MarkerOptions options5 = new MarkerOptions();
+        options5.title("Ternevej 47");
+        options5.position(new LatLng(lat5, lng5));
+        mapboxMap.addMarker(options5);
+
+        //Engblommevej 22
+        MarkerOptions options6 = new MarkerOptions();
+        options6.title("Engblommevej 22");
+        options6.position(new LatLng(lat6, lng6));
+        mapboxMap.addMarker(options6);
+
+
         map.addOnMapClickListener(this);
         enableLocation();
     }
@@ -158,26 +214,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapClick(@NonNull LatLng point) {
 
-        /*if(desList != null){
-            map.removeMarker(destininationMarker);
-        }
 
-         */
         // Her laver vi liste med de parameter som viser sig hen vores punkt
-        p1 = Point.fromLngLat(lng2, lat2);
-        p2 = Point.fromLngLat(lng3, lat3);
         desList = Point.fromLngLat(lng, lat);
-        destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+        p1 = Point.fromLngLat(lng1, lat1);
+        p2 = Point.fromLngLat(lng2, lat2);
+        p3 = Point.fromLngLat(lng3, lat3);
+        p4 = Point.fromLngLat(lng4, lat4);
+        p5 = Point.fromLngLat(lng5, lat5);
+        p6 = Point.fromLngLat(lng6, lat6);
+
+        //destinationPostition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         originPosition = Point.fromLngLat(orginLocation.getLongitude(), orginLocation.getLatitude());
         //Istedet for destionationPosition bruger vi desList som kun viser hen vores punkt.
-        getRoute(originPosition, p1, p2, desList);
+        getRoute(originPosition, p1,p2,p3,p4,p5,p6, desList);
         startButton.setEnabled(true);
         startButton.setBackgroundResource(R.color.mapbox_blue);
     }
 
 
     //Creates the route
-    private void getRoute(Point orgin, Point waypoint, Point waypoint2, Point destination) {
+    private void getRoute(Point orgin, Point waypoint,Point waypoint1,Point waypoint2,Point waypoint3,Point waypoint4,Point waypoint5, Point destination) {
 
         NavigationRoute.Builder builder = NavigationRoute.builder()
                 .accessToken(Mapbox.getAccessToken())
@@ -185,7 +242,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .destination(destination)
                 .profile(DirectionsCriteria.PROFILE_DRIVING);
         builder.addWaypoint(waypoint);
+        builder.addWaypoint(waypoint1);
         builder.addWaypoint(waypoint2);
+        builder.addWaypoint(waypoint3);
+        builder.addWaypoint(waypoint4);
+        builder.addWaypoint(waypoint5);
+
         builder.build()
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
